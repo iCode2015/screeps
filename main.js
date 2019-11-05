@@ -1,11 +1,11 @@
+// var roleUpkeep = require('role.upkeep');
+
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
 var roleDefender = require('role.defender');
-var roleUpkeep = require('role.upkeep');
-
-module.exports.loop = function () {
+module.exports.loop = () => {
     // vital
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
@@ -17,7 +17,6 @@ module.exports.loop = function () {
     for (var name in Game.rooms) {
         console.log(name);
     }
-
     roleSpawner.run(Game.spawns['Spawn1']);
 
     for(var name in Game.creeps) {
