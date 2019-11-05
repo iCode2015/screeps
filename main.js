@@ -23,22 +23,27 @@ module.exports.loop = () => {
         var creep = Game.creeps[name];
 
 
+        if (!creep.spawning) {
+          if(creep.memory.role == 'harvester') {
 
-        if(creep.memory.role == 'harvester') {
-          // roleUpkeep.run(creep);
+              roleHarvester.run(creep);
+          }
+          if(creep.memory.role == 'upgrader') {
+              roleUpgrader.run(creep);
+          }
 
-            roleHarvester.run(creep);
-        }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
-        }
+          if(creep.memory.role == 'builder') {
+              roleBuilder.run(creep);
+          }
 
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
-        }
+          if (creep.memory.role == 'defender') {
+              roleDefender.run(creep);
+          }
 
-        if (creep.memory.role == 'defender') {
-            roleDefender.run(creep);
-        }
+          if (creep.memory.role == 'upkeep') {
+            roleUpkeep.run(creep);
+
+          }
+      }
     }
 }
