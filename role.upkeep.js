@@ -5,10 +5,22 @@
 *******************************************************************************/
 module.exports = {
   run: function(creep) {
-    const walls = this.findWalls(creep);
-    if (walls.length) {
-      if (creep.repair(walls[0] == ERR_NOT_IN_RANGE)) {
-        creep.moveTo(walls[0]);
+    // First check if have free capacity (source). If so, do harvest stuff.
+    // Otherwise repair stuff.
+    if (creep.store.getFreeCapacity() > 0) {
+      var sources = creep.room.find(FIND_SOURCES);
+      if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+
+          creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+      }
+    } else {
+      const walls = this.findWalls(creep);
+      if (walls.length) {
+        if (walls[0].hits < walls[0].hitsMax) {
+          if (creep.repair(walls[0] == ERR_NOT_IN_RANGE)) {
+            creep.moveTo(walls[0]);
+          }
+        }
       }
     }
   },
@@ -22,7 +34,7 @@ module.exports = {
   **/
   findWalls: (creep) => {
     // let walls = "bob";
-    let walls = creep.room.find(FIND_STRUCTURES, {
+    let walls = creep.room.find(FIND_MY_STRUCTURES, {
       filter: (structure) => {
         return structure.structureType == STRUCTURE_WALL;
       }

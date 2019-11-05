@@ -13,12 +13,13 @@ module.exports = {
     BUILDERS_LIMIT: 1,
     UPGRADERS_LIMIT: 2,
     DEFENDERS_LIMIT: 1,
-
+    UPKEEPS_LIMIT: 1,
     // Vairables
     harvesters: 0,
     upgraders: 0,
     builders: 0,
     defenders: 0,
+    upkeepers: 0,
     /**
      * @param (Game.spawns[]) spawn
     **/
@@ -28,7 +29,8 @@ module.exports = {
         this.upgraders = this.getTotalUpgraders();
         this.builders = this.getTotalBuilders();
         this.defenders = this.getTotalDefenders();
-        console.log('Defenders: ' + this.defenders + ',  ' + 'Harvesters: ' + this.harvesters + ', Upgraders: ' + this.upgraders + ', Builders: ' + this.builders);
+        this.upkeeps = this.getTotalUpkeeps();
+        console.log('Defenders: ' + this.defenders + ',  ' + 'Harvesters: ' + this.harvesters + ', Upgraders: ' + this.upgraders + ', Builders: ' + this.builders + ', Upkeepers: ' + this.upkeeps);
 
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
@@ -41,6 +43,8 @@ module.exports = {
             this.spawnBasicUpgraderCreep();
         } else if (this.builders < this.BUILDERS_LIMIT) {
             this.spawnBasicBuilderCreep();
+        } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
+          this.spawnBasicUpkeepCreep();
         }
 
 
@@ -65,6 +69,10 @@ module.exports = {
        return _.filter(Game.creeps, (creep) => creep.memory.role == 'defender').length;
     },
 
+    getTotalUpkeeps: function() {
+       return _.filter(Game.creeps, (creep) => creep.memory.role == 'upkeep').length;
+    },
+
     spawnBasicHarvesterCreep: function() {
         var newName = Game.time + '-H';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, {memory: {role: 'harvester'}} );
@@ -86,6 +94,12 @@ module.exports = {
     spawnBasicDefenderCreep: function() {
         var newName = Game.time + '-D';
         Game.spawns['Spawn1'].spawnCreep([ATTACK, ATTACK, MOVE], newName, {memory: {role: 'defender'}} );
+
+    },
+
+    spawnBasicUpkeepCreep: function() {
+        var newName = Game.time + '-UPK';
+        Game.spawns['Spawn1'].spawnCreep([CARRY, WORK, MOVE], newName, {memory: {role: 'upkeep'}} );
 
     }
 
