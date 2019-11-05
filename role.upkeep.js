@@ -7,13 +7,27 @@ module.exports = {
   run: function(creep) {
     // First check if have free capacity (source). If so, do harvest stuff.
     // Otherwise repair stuff.
-    if (creep.store.getFreeCapacity() > 5) {
+
+    // Need to set boolean flags (is that term correct?)
+    // If NO stored energy left, it means it is time to harvest.
+    // If still have some, keep repairing.
+    if (creep.store.getFreeCapacity() > 0 && creep.memory.repairing) {
+      creep.memory.repairing = false;
+    } else if (creep.store.getFreeCapacity() == 0 && !creep.memory.repairing) {
+      creep.memory.repairing = true;
+    }
+
+    if (!creep.memory.repairing) {
+      creep.say("🌾");
+
+      // console.log("Have some free capacity left...");
       var sources = creep.room.find(FIND_SOURCES);
       if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-
+          // creep.say("harvest");
           creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
       }
     } else {
+      creep.say("🛠");
       const walls = this.findWalls(creep);
       if (walls.length) {
         if (creep.repair(walls[0]) == ERR_NOT_IN_RANGE) {
