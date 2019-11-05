@@ -18,6 +18,16 @@ var roleBuilder = {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
+            } else {
+              let idleFlag = creep.room.find(FIND_FLAGS, {
+                filter: (flag) => {
+                  return flag.name == 'Idle';
+                }
+              });
+
+              if (idleFlag.length) {
+                creep.moveTo(idleFlag[0]);
+              }
             }
         }
         else {

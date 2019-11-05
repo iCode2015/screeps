@@ -23,12 +23,15 @@ var roleHarvester = {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             } else {
-                var spawner = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_SPAWN)
-                    }
-                });
-                creep.moveTo(spawner[0], {visualizePathStyle: {stroke: '#ffffff'}});
+              let idleFlag = creep.room.find(FIND_FLAGS, {
+                filter: (flag) => {
+                  return flag.name == 'Idle';
+                }
+              });
+
+              if (idleFlag.length) {
+                creep.moveTo(idleFlag[0]);
+              }
             }
         }
 	},
