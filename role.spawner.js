@@ -35,7 +35,12 @@ module.exports = {
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
         if (this.harvesters < this.HARVESTERS_LIMIT) {
+          if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].availableCapacityAvailable * .8) ) {
+            this.spawnHarvesterCreep();
+          } else {
             this.spawnBasicHarvesterCreep();
+
+          }
         } else if (this.defenders < this.DEFENDERS_LIMIT) {
             this.spawnBasicDefenderCreep();
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
@@ -81,6 +86,12 @@ module.exports = {
     spawnBasicHarvesterCreep: function() {
         var newName = Game.time + '-H';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, {memory: {role: 'harvester'}} );
+
+    },
+
+    spawnHarvesterCreep: function() {
+        var newName = Game.time + '-H+';
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
