@@ -11,9 +11,10 @@ module.exports = {
     // Need to set boolean flags (is that term correct?)
     // If NO stored energy left, it means it is time to harvest.
     // If still have some, keep repairing.
-    if (creep.store.getFreeCapacity() > 0 && creep.memory.repairing) {
+    if (creep.store[RESOURCE_ENERGY] == 0 && creep.memory.repairing) {
       creep.memory.repairing = false;
-    } else if (creep.store.getFreeCapacity() == 0 && !creep.memory.repairing) {
+    }
+    else if (creep.store.getFreeCapacity() == 0 && !creep.memory.repairing) {
       creep.memory.repairing = true;
     }
 
