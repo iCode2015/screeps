@@ -35,8 +35,10 @@ module.exports = {
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
         if (this.harvesters < this.HARVESTERS_LIMIT) {
-          if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].availableCapacityAvailable * .8) ) {
-            this.spawnHarvesterCreep();
+          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
+            if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].energyAvailableCapacity * .75) ) {
+              this.spawnHarvesterCreep();
+            }
           } else {
             this.spawnBasicHarvesterCreep();
 
@@ -45,9 +47,11 @@ module.exports = {
             this.spawnBasicDefenderCreep();
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
         } else if (this.upgraders < this.UPGRADERS_LIMIT) {
-          if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].availableCapacityAvailable * .8) ) {
-            console.log("spawning U+ upgrader!");
-            this.spawnUpgraderCreep();
+          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
+            if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].availableCapacityAvailable * .8) ) {
+              console.log("spawning U+ upgrader!");
+              this.spawnUpgraderCreep();
+            }
           } else {
             this.spawnBasicUpgraderCreep();
           }
