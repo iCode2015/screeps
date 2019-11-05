@@ -5,9 +5,9 @@
 *******************************************************************************/
 module.exports = {
   run: function(creep) {
-    let walls = this.findWalls(creep);
-    if(walls.length) {
-      if (creep.repair(walls[0] == ERR_NOT_IN_RANGE) {
+    const walls = this.findWalls(creep);
+    if (walls.length) {
+      if (creep.repair(walls[0] == ERR_NOT_IN_RANGE)) {
         creep.moveTo(walls[0]);
       }
     }
@@ -21,6 +21,7 @@ module.exports = {
     @param {Creep} creep the creep that we will use
   **/
   findWalls: (creep) => {
+    // let walls = "bob";
     let walls = creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
         return structure.structureType == STRUCTURE_WALL;
