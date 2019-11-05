@@ -11,7 +11,7 @@ module.exports = {
     // constants
     HARVESTERS_LIMIT: 2,
     BUILDERS_LIMIT: 1,
-    UPGRADERS_LIMIT: 2,
+    UPGRADERS_LIMIT: 1,
     DEFENDERS_LIMIT: 1,
     UPKEEPS_LIMIT: 1,
     // Vairables
@@ -40,7 +40,12 @@ module.exports = {
             this.spawnBasicDefenderCreep();
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
         } else if (this.upgraders < this.UPGRADERS_LIMIT) {
+          if (Game.rooms['W41S24'].availableEnergy > (Game.rooms['W41S24'].availableCapacityAvailable * .8) ) {
+            console.log("spawning U+ upgrader!");
+            this.spawnUpgraderCreep();
+          } else {
             this.spawnBasicUpgraderCreep();
+          }
         } else if (this.builders < this.BUILDERS_LIMIT) {
             this.spawnBasicBuilderCreep();
         } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
@@ -82,6 +87,14 @@ module.exports = {
     spawnBasicUpgraderCreep: function() {
         var newName = Game.time + '-U';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
+
+    },
+
+    spawnUpgraderCreep: function() {
+        var newName = Game.time + '-U+';
+        // 200 + 100 + 100 = 400
+        // costs 400 energy
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
 
     },
 
