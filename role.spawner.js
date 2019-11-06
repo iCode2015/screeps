@@ -38,10 +38,9 @@ module.exports = {
           if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
             if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
               this.spawnHarvesterCreep();
+            } else {
+              this.spawnBasicHarvesterCreep();
             }
-          } else {
-            this.spawnBasicHarvesterCreep();
-
           }
         } else if (this.defenders < this.DEFENDERS_LIMIT) {
             this.spawnBasicDefenderCreep();
@@ -49,16 +48,27 @@ module.exports = {
         } else if (this.upgraders < this.UPGRADERS_LIMIT) {
           if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
             if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
-              console.log("spawning U+ upgrader!");
               this.spawnUpgraderCreep();
             }
           } else {
             this.spawnBasicUpgraderCreep();
           }
         } else if (this.builders < this.BUILDERS_LIMIT) {
+          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
+            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
+              this.spawnBuilderCreep();
+            }
+          } else {
             this.spawnBasicBuilderCreep();
+          }
         } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
-          this.spawnBasicUpkeepCreep();
+          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
+            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
+              this.spawnUpkeepCreep();
+            }
+          } else {
+            this.spawnBasicUpkeepCreep();
+          }
         }
 
 
@@ -88,25 +98,25 @@ module.exports = {
     },
 
     spawnBasicHarvesterCreep: function() {
-        var newName = Game.time + '-H';
+        let newName = Game.time + '-H';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
     spawnHarvesterCreep: function() {
-        var newName = Game.time + '-H+';
+        let newName = Game.time + '-H+';
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
     spawnBasicUpgraderCreep: function() {
-        var newName = Game.time + '-U';
+        let newName = Game.time + '-U';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
 
     },
 
     spawnUpgraderCreep: function() {
-        var newName = Game.time + '-U+';
+        let newName = Game.time + '-U+';
         // 200 + 100 + 100 = 400
         // costs 400 energy
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
@@ -114,21 +124,29 @@ module.exports = {
     },
 
     spawnBasicBuilderCreep: function() {
-        var newName = Game.time + '-B';
+        let newName = Game.time + '-B';
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
+    },
 
+    spawnBuilderCreep: function() {
+        let newName = Game.time + '-B+';
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
     },
 
     spawnBasicDefenderCreep: function() {
-        var newName = Game.time + '-D';
+        let newName = Game.time + '-D';
         Game.spawns['Spawn1'].spawnCreep([ATTACK, ATTACK, MOVE, MOVE], newName, {memory: {role: 'defender'}} );
 
     },
 
     spawnBasicUpkeepCreep: function() {
-        var newName = Game.time + '-UPK';
+        let newName = Game.time + '-UPK';
         Game.spawns['Spawn1'].spawnCreep([CARRY, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
+    },
 
+    spawnUpkeepCreep: function() {
+        let newName = Game.time + '-UPK+';
+        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, WORK, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
     }
 
 };
