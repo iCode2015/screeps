@@ -35,38 +35,25 @@ module.exports = {
 
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
-        if (this.harvesters < this.HARVESTERS_LIMIT) {
-          if (room.energyAvailable > 500) {
-            this.this.spawnHarvesterCreep(spawn);
-          } else {
-            if (this.harvesters < (this.HARVESTERS_LIMIT / 2) )
-              this.spawnBasicHarvesterCreep(spawn);
-          }
+        if (this.harvesters < this.HARVESTERS_LIMIT && room.energyAvailable > 500) {
+          this.this.spawnHarvesterCreep(spawn);
+        } else if (this.harvesters < (this.HARVESTERS_LIMIT / 2) ) {
+          this.spawnBasicHarvesterCreep(spawn);
         } else if (this.defenders < this.DEFENDERS_LIMIT) {
             this.spawnBasicDefenderCreep(spawn);
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
-        } else if (this.upgraders < this.UPGRADERS_LIMIT) {
-          if (room.energyAvailable > 400) {
-            this.spawnUpgraderCreep(spawn);
-          } else {
-            if (this.upgraders == 0) {
-              this.spawnBasicUpgraderCreep(spawn);
-            }
-          }
-        } else if (this.builders < this.BUILDERS_LIMIT) {
-          if (room.energyAvailable > 400) {
-            this.spawnBuilderCreep(spawn);
-          } else {
-            if (this.builders == 0)
-              this.spawnBasicBuilderCreep(spawn);
-          }
-        } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
-          if (room.energyAvailable > 400) {
-              this.spawnUpkeepCreep(spawn);
-          } else {
-            if (this.upkeepers == 0)
-              this.spawnBasicUpkeepCreep(spawn);
-          }
+        } else if (this.upgraders < this.UPGRADERS_LIMIT && room.energyAvailable > 400) {
+          this.spawnUpgraderCreep(spawn);
+        } else if (this.upgraders == 0) {
+          this.spawnBasicUpgraderCreep(spawn);
+        } else if (this.builders < this.BUILDERS_LIMIT && room.energyAvailable > 400) {
+          this.spawnBuilderCreep(spawn);
+        } else if (this.builders == 0) {
+            this.spawnBasicBuilderCreep(spawn);
+        } else if (this.upkeeps < this.UPKEEPS_LIMIT && room.energyAvailable > 400) {
+            this.spawnUpkeepCreep(spawn);
+        } else if (this.upkeepers == 0) {
+          this.spawnBasicUpkeepCreep(spawn);
         }
 
 
