@@ -16,8 +16,10 @@ module.exports.loop = () => {
 
     for (var name in Game.rooms) {
         console.log(name);
+        roleSpawner.run(Game.spawns['Spawn1'], Game.rooms[name]);
+
     }
-    roleSpawner.run(Game.spawns['Spawn1'], Game.rooms['sim']);
+    // roleSpawner.run(Game.spawns['Spawn1'], Game.rooms['sim']);
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
