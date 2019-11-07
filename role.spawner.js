@@ -9,7 +9,7 @@
 
 module.exports = {
     // constants
-    HARVESTERS_LIMIT: 2,
+    HARVESTERS_LIMIT: 3,
     BUILDERS_LIMIT: 2,
     UPGRADERS_LIMIT: 2,
     DEFENDERS_LIMIT: 1,

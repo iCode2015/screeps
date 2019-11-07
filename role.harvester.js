@@ -2,8 +2,25 @@ var roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+      // Boolean flag - creep.memory.harvesting
+
+      /**
+      If harvester's cargo is EMPTY, it is time to harvest.
+      If harvest's cargo is FULL, it is time to transfer.
+
+      So, if cargo is empty AND harvesting is false, THEN switch harvesting to true.
+      if cargo is FULL and harvesting is true, switch harvesting to false.
+      **/
+      if (creep.store[RESOURCE_ENERGY] == 0 && !creep.memory.harvesting) {
+        creep.memory.harvesting = true;
+      }
+      if (creep.store.getFreeCapacity() == 0 && creep.memory.harvesting) {
+        creep.memory.harvesting = false;
+      }
+
+
       // creep.say('test');
-	    if(creep.store.getFreeCapacity() > 0) {
+	    if(creep.memory.harvesting) {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
 
