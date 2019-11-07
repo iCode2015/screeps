@@ -10,8 +10,8 @@
 module.exports = {
     // constants
     HARVESTERS_LIMIT: 2,
-    BUILDERS_LIMIT: 1,
-    UPGRADERS_LIMIT: 1,
+    BUILDERS_LIMIT: 2,
+    UPGRADERS_LIMIT: 2,
     DEFENDERS_LIMIT: 1,
     UPKEEPS_LIMIT: 1,
     // Vairables
@@ -36,10 +36,8 @@ module.exports = {
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
         if (this.harvesters < this.HARVESTERS_LIMIT) {
-          if (room.energyCapacityAvailable > 400) {
-            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
-              this.spawnHarvesterCreep(spawn);
-            }
+          if (room.energyAvailable > 500) {
+            this.this.spawnHarvesterCreep(spawn);
           } else {
             if (this.harvesters < (this.HARVESTERS_LIMIT / 2) )
               this.spawnBasicHarvesterCreep(spawn);
@@ -48,28 +46,26 @@ module.exports = {
             this.spawnBasicDefenderCreep(spawn);
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
         } else if (this.upgraders < this.UPGRADERS_LIMIT) {
-          if (room.energyCapacityAvailable > 400) {
-            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
-              this.spawnUpgraderCreep();
-            }
+          if (room.energyAvailable > 400) {
+            this.spawnUpgraderCreep(spawn);
           } else {
-            this.spawnBasicUpgraderCreep(spawn);
+            if (this.upgraders == 0) {
+              this.spawnBasicUpgraderCreep(spawn);
+            }
           }
         } else if (this.builders < this.BUILDERS_LIMIT) {
-          if (room.energyCapacityAvailable > 400) {
-            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
-              this.spawnBuilderCreep(spawn);
-            }
+          if (room.energyAvailable > 400) {
+            this.spawnBuilderCreep(spawn);
           } else {
-            this.spawnBasicBuilderCreep(spawn);
+            if (this.builders == 0)
+              this.spawnBasicBuilderCreep(spawn);
           }
         } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
-          if (room.energyCapacityAvailable > 400) {
-            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
+          if (room.energyAvailable > 400) {
               this.spawnUpkeepCreep(spawn);
-            }
           } else {
-            this.spawnBasicUpkeepCreep(spawn);
+            if (this.upkeepers == 0)
+              this.spawnBasicUpkeepCreep(spawn);
           }
         }
 
@@ -116,7 +112,7 @@ module.exports = {
 
     spawnHarvesterCreep: function(spawn) {
         let newName = Game.time + '-H+';
-        spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
+        spawn.spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
