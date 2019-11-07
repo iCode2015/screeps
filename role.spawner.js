@@ -36,7 +36,7 @@ module.exports = {
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
         if (this.harvesters < this.HARVESTERS_LIMIT && room.energyAvailable > 500) {
-          this.this.spawnHarvesterCreep(spawn);
+          this.spawnHarvesterCreep(spawn);
         } else if (this.harvesters < (this.HARVESTERS_LIMIT / 2) ) {
           this.spawnBasicHarvesterCreep(spawn);
         } else if (this.defenders < this.DEFENDERS_LIMIT) {
@@ -52,7 +52,9 @@ module.exports = {
             this.spawnBasicBuilderCreep(spawn);
         } else if (this.upkeeps < this.UPKEEPS_LIMIT && room.energyAvailable > 400) {
             this.spawnUpkeepCreep(spawn);
-        } else if (this.upkeepers == 0) {
+        } else if (this.upkeeps == 0) {
+          console.log("spawning upkeep creep...");
+          console.log(this.upkeeps);
           this.spawnBasicUpkeepCreep(spawn);
         }
 
