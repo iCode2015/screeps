@@ -22,52 +22,54 @@ module.exports = {
     upkeepers: 0,
     /**
      * @param (Game.spawns[]) spawn
+     * @param {Room} room
     **/
-    run: function(spawn) {
+    run: function(spawn, room) {
         // Get basic tally of types of creeps
-        this.harvesters = this.getTotalHarvesters();
-        this.upgraders = this.getTotalUpgraders();
-        this.builders = this.getTotalBuilders();
-        this.defenders = this.getTotalDefenders();
-        this.upkeeps = this.getTotalUpkeeps();
+        this.harvesters = this.getTotalHarvesters(room);
+        this.upgraders = this.getTotalUpgraders(room);
+        this.builders = this.getTotalBuilders(room);
+        this.defenders = this.getTotalDefenders(room);
+        this.upkeeps = this.getTotalUpkeeps(room);
         console.log('Defenders: ' + this.defenders + ',  ' + 'Harvesters: ' + this.harvesters + ', Upgraders: ' + this.upgraders + ', Builders: ' + this.builders + ', Upkeepers: ' + this.upkeeps);
 
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
         if (this.harvesters < this.HARVESTERS_LIMIT) {
-          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
-            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
-              this.spawnHarvesterCreep();
-            } else {
-              this.spawnBasicHarvesterCreep();
+          if (room.energyCapacityAvailable > 400) {
+            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
+              this.spawnHarvesterCreep(spawn);
             }
+          } else {
+            if (this.harvesters < (this.HARVESTERS_LIMIT / 2) )
+              this.spawnBasicHarvesterCreep(spawn);
           }
         } else if (this.defenders < this.DEFENDERS_LIMIT) {
-            this.spawnBasicDefenderCreep();
+            this.spawnBasicDefenderCreep(spawn);
             // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], Game.time + '-H', {memory: {role: 'harvester'} });
         } else if (this.upgraders < this.UPGRADERS_LIMIT) {
-          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
-            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
+          if (room.energyCapacityAvailable > 400) {
+            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
               this.spawnUpgraderCreep();
             }
           } else {
-            this.spawnBasicUpgraderCreep();
+            this.spawnBasicUpgraderCreep(spawn);
           }
         } else if (this.builders < this.BUILDERS_LIMIT) {
-          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
-            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
-              this.spawnBuilderCreep();
+          if (room.energyCapacityAvailable > 400) {
+            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
+              this.spawnBuilderCreep(spawn);
             }
           } else {
-            this.spawnBasicBuilderCreep();
+            this.spawnBasicBuilderCreep(spawn);
           }
         } else if(this.upkeeps < this.UPKEEPS_LIMIT) {
-          if (Game.rooms.W41S24.energyCapacityAvailable > 400) {
-            if (Game.rooms['W41S24'].energyAvailable > (Game.rooms['W41S24'].energyCapacityAvailable * .90) ) {
-              this.spawnUpkeepCreep();
+          if (room.energyCapacityAvailable > 400) {
+            if (room.energyAvailable > (room.energyCapacityAvailable * .90) ) {
+              this.spawnUpkeepCreep(spawn);
             }
           } else {
-            this.spawnBasicUpkeepCreep();
+            this.spawnBasicUpkeepCreep(spawn);
           }
         }
 
@@ -76,77 +78,86 @@ module.exports = {
 
     },
 
-    getTotalHarvesters: function() {
-       return  _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester').length;
+    getTotalHarvesters: function(room) {
+       return  _.filter(Game.creeps,
+         (creep) => creep.memory.role == 'harvester'
+       && creep.room.name == room.name).length;
     },
 
-    getTotalUpgraders: function() {
-       return  _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader').length;
-
+    getTotalUpgraders: function(room) {
+       return  _.filter(Game.creeps, (creep) =>
+         creep.memory.role == 'upgrader' && creep.room.name == room.name
+       ).length;
     },
 
-    getTotalBuilders: function() {
-       return _.filter(Game.creeps, (creep) => creep.memory.role == 'builder').length;
+    getTotalBuilders: function(room) {
+       return _.filter(Game.creeps, (creep) =>
+         creep.memory.role == 'builder' && creep.room.name == room.name
+       ).length;
     },
 
-    getTotalDefenders: function() {
-       return _.filter(Game.creeps, (creep) => creep.memory.role == 'defender').length;
+    getTotalDefenders: function(room) {
+       return _.filter(Game.creeps, (creep) =>
+         creep.memory.role == 'defender' && creep.room.name == room.name
+       ).length;
     },
 
-    getTotalUpkeeps: function() {
-       return _.filter(Game.creeps, (creep) => creep.memory.role == 'upkeep').length;
+    getTotalUpkeeps: function(room) {
+       return _.filter(Game.creeps, (creep) =>
+         creep.memory.role == 'upkeep' && creep.room.name == room.name
+       ).length;
     },
 
-    spawnBasicHarvesterCreep: function() {
+    spawnBasicHarvesterCreep: function(spawn) {
         let newName = Game.time + '-H';
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
+        spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
-    spawnHarvesterCreep: function() {
+    spawnHarvesterCreep: function(spawn) {
         let newName = Game.time + '-H+';
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
+        spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'harvester'}} );
 
     },
 
-    spawnBasicUpgraderCreep: function() {
+    spawnBasicUpgraderCreep: function(spawn) {
         let newName = Game.time + '-U';
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
+        spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
 
     },
 
-    spawnUpgraderCreep: function() {
+    spawnUpgraderCreep: function(spawn) {
         let newName = Game.time + '-U+';
         // 200 + 100 + 100 = 400
         // costs 400 energy
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
+        spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'upgrader'}} );
 
     },
 
-    spawnBasicBuilderCreep: function() {
+    spawnBasicBuilderCreep: function(spawn) {
         let newName = Game.time + '-B';
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
+        spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
     },
 
-    spawnBuilderCreep: function() {
+    spawnBuilderCreep: function(spawn) {
         let newName = Game.time + '-B+';
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
+        spawn.spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName, {memory: {role: 'builder'}} );
     },
 
-    spawnBasicDefenderCreep: function() {
+    spawnBasicDefenderCreep: function(spawn) {
         let newName = Game.time + '-D';
-        Game.spawns['Spawn1'].spawnCreep([ATTACK, ATTACK, MOVE, MOVE], newName, {memory: {role: 'defender'}} );
+        spawn.spawnCreep([ATTACK, ATTACK, MOVE, MOVE], newName, {memory: {role: 'defender'}} );
 
     },
 
-    spawnBasicUpkeepCreep: function() {
+    spawnBasicUpkeepCreep: function(spawn) {
         let newName = Game.time + '-UPK';
-        Game.spawns['Spawn1'].spawnCreep([CARRY, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
+        spawn.spawnCreep([CARRY, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
     },
 
-    spawnUpkeepCreep: function() {
+    spawnUpkeepCreep: function(spawn) {
         let newName = Game.time + '-UPK+';
-        Game.spawns['Spawn1'].spawnCreep([CARRY, CARRY, WORK, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
+        spawn.spawnCreep([CARRY, CARRY, WORK, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
     }
 
 };
