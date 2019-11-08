@@ -53,8 +53,6 @@ module.exports = {
         } else if (this.upkeeps < this.UPKEEPS_LIMIT && room.energyAvailable > 400) {
             this.spawnUpkeepCreep(spawn);
         } else if (this.upkeeps == 0) {
-          console.log("spawning upkeep creep...");
-          console.log(this.upkeeps);
           this.spawnBasicUpkeepCreep(spawn);
         }
 

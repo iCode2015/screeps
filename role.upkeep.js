@@ -29,11 +29,11 @@ module.exports = {
       }
     } else {
       creep.say("🛠");
-      const walls = this.findWalls(creep);
-      if (walls.length) {
-        if (creep.repair(walls[0]) == ERR_NOT_IN_RANGE) {
+      const items = this.findItems(creep);
+      if (items.length) {
+        if (creep.repair(items[0]) == ERR_NOT_IN_RANGE) {
           creep.say("🛠");
-          creep.moveTo(walls[0]);
+          creep.moveTo(items[0]);
         }
       } else {
         let idleFlag = creep.room.find(FIND_FLAGS, {
@@ -56,11 +56,11 @@ module.exports = {
     In future, I can refine it to find nearest ones.
     @param {Creep} creep the creep that we will use
   **/
-  findWalls: (creep) => {
+  findItems: (creep) => {
     // let walls = "bob";
     let walls = creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
-        return structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax;
+        return structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax;
       }
     });
     return walls;
