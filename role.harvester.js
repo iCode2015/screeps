@@ -21,23 +21,22 @@ var roleHarvester = {
 
       // creep.say('test');
 	    if(creep.memory.harvesting) {
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+            var sources = creep.pos.findClosestByRange(FIND_SOURCES);
+            if(creep.harvest(sources) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
+            var targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                        return ( structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION) &&
                             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                     }
             });
-            if(targets.length > 0) {
+            if(targets != null) {
 
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                if(creep.transfer(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             } else {
               let idleFlag = creep.room.find(FIND_FLAGS, {
