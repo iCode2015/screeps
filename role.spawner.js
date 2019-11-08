@@ -25,6 +25,9 @@ module.exports = {
      * @param {Room} room
     **/
     run: function(spawn, room) {
+        // Tests
+        // console.log(this.calculateBodyPartsCost([WORK,WORK,WORK,MOVE,MOVE,CARRY,CARRY]));
+
         // Get basic tally of types of creeps
         this.harvesters = this.getTotalHarvesters(room);
         this.upgraders = this.getTotalUpgraders(room);
@@ -141,6 +144,21 @@ module.exports = {
     spawnUpkeepCreep: function(spawn) {
         let newName = Game.time + '-UPK+';
         spawn.spawnCreep([CARRY, CARRY, WORK, WORK, MOVE, MOVE], newName, {memory: {role: 'upkeep'}} );
+    },
+
+    /**
+    Calculates the cost for given array of body parts (constants).
+    @param {Array} bodyParts array of body body parts
+    @return {Number} the total cost of producing said body
+    **/
+    calculateBodyPartsCost: (bodyParts) => {
+      let cost = 0;
+
+      for (let item in bodyParts) {
+        cost += BODYPART_COST[bodyParts[item]];
+      }
+
+      return cost;
     }
 
 };
