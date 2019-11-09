@@ -1,10 +1,11 @@
 var roleUpkeep = require('role.upkeep');
-
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
 var roleDefender = require('role.defender');
+var towerAttacker = require('tower.attacker');
+
 module.exports.loop = () => {
     // vital
     for (var name in Memory.creeps) {
@@ -21,8 +22,8 @@ module.exports.loop = () => {
     }
     // roleSpawner.run(Game.spawns['Spawn1'], Game.rooms['sim']);
 
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
+    for(let name in Game.creeps) {
+        let creep = Game.creeps[name];
 
 
         if (!creep.spawning) {
@@ -46,6 +47,13 @@ module.exports.loop = () => {
             roleUpkeep.run(creep);
 
           }
+      }
+    }
+
+    for (let struct in Game.structures) {
+      if (Game.structures[struct].structureType == STRUCTURE_TOWER) {
+        let tower = Game.structures[struct];
+        towerAttacker.run(tower);
       }
     }
 }

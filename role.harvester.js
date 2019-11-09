@@ -27,18 +27,36 @@ var roleHarvester = {
             }
         }
         else {
-            var targets = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            let target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return ( structure.structureType == STRUCTURE_SPAWN || structure.structureType == STRUCTURE_EXTENSION) &&
                             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                     }
             });
-            if(targets != null) {
 
-                if(creep.transfer(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets, {visualizePathStyle: {stroke: '#ffffff'}});
+            // Container target
+            let container = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+              filter: (container) => {
+                return container.structureType == STRUCTURE_CONTAINER && container.store.getFreeCapacity() > 0;
+              }
+            });
+            if(target) {
+
+                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
+            } else if (container) {
+              console.log("test transfeering");
+              if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}});
+              }
+
+
             } else {
+
+              // Other than main duties, harvesters should fill in the containers.
+              // Only if it is not full.
+
               let idleFlag = creep.room.find(FIND_FLAGS, {
                 filter: (flag) => {
                   return flag.name == 'Idle';
