@@ -14,6 +14,7 @@ module.exports = {
     UPGRADERS_LIMIT: 2,
     DEFENDERS_LIMIT: 1,
     UPKEEPS_LIMIT: 1,
+    DUMMY_LIMIT: 1,
     // Vairables
     harvesters: 0,
     upgraders: 0,
@@ -25,6 +26,8 @@ module.exports = {
      * @param {Room} room
     **/
     run: function(spawn, room) {
+        // this.setLimit('harvester', 5);
+        // console.log(this.DUMMY_LIMIT);
         // Tests
         // console.log(this.calculateBodyPartsCost([WORK,WORK,WORK,MOVE,MOVE,CARRY,CARRY]));
 
@@ -159,6 +162,38 @@ module.exports = {
       }
 
       return cost;
+    },
+
+
+    /**
+    Sets the amount of creeps to a specific role can be spawned.
+    @param {String} limit the variable to be changed. (should be referring to this object's variables)
+    @param {Number} amount the amount to be set.
+    **/
+    setLimit: function(limit, amount) {
+      switch (limit) {
+        case 'harvester':
+          this.HARVESTERS_LIMIT = amount;
+          break;
+        case 'upgrader':
+          this.UPGRADERS_LIMIT = amount;
+          break;
+        case 'upkeep':
+          this.UPKEEPS_LIMIT = amount;
+          break;
+        case 'defender':
+          this.DEFENDERS_LIMIT = amount;
+          break;
+        case 'builder':
+          this.BUILDERS_LIMIT = amount;
+          break;
+        case 'dummy':
+          this.DUMMY_LIMIT = amount;
+          break;
+        default:
+          console.log("Tried to set something in the void");
+      }
     }
+
 
 };
