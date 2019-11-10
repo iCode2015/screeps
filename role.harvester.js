@@ -21,7 +21,11 @@ var roleHarvester = {
 
       // creep.say('test');
 	    if(creep.memory.harvesting) {
-            var sources = creep.pos.findClosestByRange(FIND_SOURCES);
+            var sources = creep.pos.findClosestByRange(FIND_SOURCES, {
+              filter: (source) => {
+                return source.energy;
+              }
+            });
             if(creep.harvest(sources) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
