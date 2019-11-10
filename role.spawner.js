@@ -43,22 +43,24 @@ module.exports = {
 
 
         // If certain type of creep is less than certain value, spawn appropirate creep.
-        if (this.harvesters < this.HARVESTERS_LIMIT && room.energyAvailable > 500) {
-          this.spawnHarvesterCreep(c.STUDENT_HARVESTER, spawn);
+        if (this.harvesters < this.HARVESTERS_LIMIT && this.spawnHarvesterCreep(c.INTERN_HARVESTER, spawn) != ERR_NOT_ENOUGH_ENERGY) {
+          this.HARVESTERS_LIMIT--;
+        } else if (this.harvesters < this.HARVESTERS_LIMIT && this.spawnHarvesterCreep(c.STUDENT_HARVESTER, spawn) != ERR_NOT_ENOUGH_ENERGY) {
+
         } else if (this.harvesters < (this.HARVESTERS_LIMIT / 2) ) {
           this.spawnHarvesterCreep(c.BASIC_HARVESTER, spawn);
-        } else if (this.defenders < this.DEFENDERS_LIMIT) {
-            this.spawnDefenderCreep(c.BASIC_DEFENDER, spawn);
-        } else if (this.upgraders < this.UPGRADERS_LIMIT && room.energyAvailable > 400) {
-          this.spawnUpgraderCreep(c.STUDENT_UPGRADER, spawn);
+        } else if (this.defenders < this.DEFENDERS_LIMIT && this.spawnDefenderCreep(c.BASIC_DEFENDER, spawn)  != ERR_NOT_ENOUGH_ENERGY) {
+
+        } else if (this.upgraders < this.UPGRADERS_LIMIT && this.spawnUpgraderCreep(c.STUDENT_UPGRADER, spawn) != ERR_NOT_ENOUGH_ENERGY) {
+
         } else if (this.upgraders == 0) {
           this.spawnUpgraderCreep(c.BASIC_UPGRADER, spawn);
-        } else if (this.builders < this.BUILDERS_LIMIT && room.energyAvailable > 400) {
-          this.spawnBuilderCreep(c.STUDENT_BUILDER, spawn);
+        } else if (this.builders < this.BUILDERS_LIMIT && this.spawnBuilderCreep(c.STUDENT_BUILDER, spawn) != ERR_NOT_ENOUGH_ENERGY) {
+
         } else if (this.builders == 0) {
             this.spawnBuilderCreep(c.BASIC_BUILDER, spawn);
-        } else if (this.upkeeps < this.UPKEEPS_LIMIT && room.energyAvailable > 400) {
-            this.spawnUpkeepCreep(c.STUDENT_UPKEEP, spawn);
+        } else if (this.upkeeps < this.UPKEEPS_LIMIT && this.spawnUpkeepCreep(c.STUDENT_UPKEEP, spawn) != ERR_NOT_ENOUGH_ENERGY) {
+
         } else if (this.upkeeps == 0) {
           this.spawnUpkeepCreep(c.BASIC_UPKEEP, spawn);
         }

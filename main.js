@@ -1,10 +1,10 @@
-var roleUpkeep = require('role.upkeep');
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleSpawner = require('role.spawner');
-var roleDefender = require('role.defender');
-var towerAttacker = require('tower.attacker');
+const roleUpkeep = require('role.upkeep');
+const roleHarvester = require('role.harvester');
+const roleUpgrader = require('role.upgrader');
+const roleBuilder = require('role.builder');
+const roleSpawner = require('role.spawner');
+const roleDefender = require('role.defender');
+const towerAttacker = require('tower.attacker');
 const constants = require('constants');
 
 
