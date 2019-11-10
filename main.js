@@ -5,8 +5,11 @@ var roleBuilder = require('role.builder');
 var roleSpawner = require('role.spawner');
 var roleDefender = require('role.defender');
 var towerAttacker = require('tower.attacker');
+const constants = require('constants');
 
-module.exports.loop = () => {
+
+module.exports.loop = function() {
+    // console.log(constants.GENERAL_DEFENDER);
     // vital
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
