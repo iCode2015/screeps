@@ -60,7 +60,7 @@ module.exports = {
     // let walls = "bob";
     let walls = creep.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
-        return structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax;
+        return structure.hits < structure.hitsMax;
       }
     });
     return walls;

@@ -4,7 +4,9 @@ const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
 const roleSpawner = require('role.spawner');
 const roleDefender = require('role.defender');
+const roleHauler = require('role.hauler');
 const towerAttacker = require('tower.attacker');
+
 const constants = require('constants');
 
 
@@ -49,6 +51,10 @@ module.exports.loop = function() {
           if (creep.memory.role == 'upkeep') {
             roleUpkeep.run(creep);
 
+          }
+
+          if (creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
           }
       }
     }
