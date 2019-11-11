@@ -16,7 +16,7 @@ var roleBuilder = {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}}, {reusePath: 15});
                 }
             } else {
               let idleFlag = creep.room.find(FIND_FLAGS, {
@@ -33,7 +33,9 @@ var roleBuilder = {
         else {
             let source = this.findSource(creep);
             if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                creep.moveTo(source,
+                  {visualizePathStyle: {stroke: '#ffaa00'}
+                  });
             }
         }
     },
