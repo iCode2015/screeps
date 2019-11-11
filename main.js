@@ -11,6 +11,10 @@ const constants = require('constants');
 
 
 module.exports.loop = function() {
+//Game.rooms['sim'].memory
+
+
+
     // console.log(constants.GENERAL_DEFENDER);
     // vital
     for (var name in Memory.creeps) {
@@ -21,6 +25,19 @@ module.exports.loop = function() {
     }
 
     for (var name in Game.rooms) {
+      // Goal is: Find all soruces containing sources.
+      if (!Game.rooms[name].memory.sourceIDs) {
+        // console.log('should not execute if already exists');
+        let sources = Game.rooms[name].find(FIND_SOURCES);
+        // console.log(sources);
+        // Game.rooms[name].memory.sources = sources;
+        let listOfSources = [];
+        for (let source in sources) {
+          listOfSources.push(sources[source].id);
+        }
+        console.log(listOfSources);
+        Game.rooms[name].memory.sourceIDs = listOfSources;
+      }
         console.log(name);
         roleSpawner.run(Game.spawns['Spawn1'], Game.rooms[name]);
 
