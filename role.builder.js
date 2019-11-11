@@ -31,11 +31,50 @@ var roleBuilder = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            let source = this.findSource(creep);
+            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
+    },
+
+    findSource: (creep) => {
+      // a copy from this room's memory.
+      const sourceIDs = creep.room.memory.sourceIDs;
+      const sourcesUnSortd = [];
+      const sourcesSorted = [];
+
+      // We first need to
+      for (let i in sourceIDs) {
+        sourcesUnSortd.push((Game.getObjectById(sourceIDs[i])))
+      }
+
+      // console.log(sourcesUnSortd);
+
+      // Now sort energy sources
+      for (let i in sourceIDs) {
+        sourcesSorted.push(creep.pos.findClosestByRange(sourcesUnSortd));
+        sourcesUnSortd.shift();
+      }
+      // console.log(sourcesSorted);
+
+      // Now with sorted list, we can determine closest source that has
+      // less than 2 creeps crowding.
+      let source;
+      for (let i in sourcesSorted) {
+        source = sourcesSorted[i];
+        // console.log(source);
+        let crowd = creep.room.lookForAtArea(LOOK_CREEPS,
+          source.pos.y - 5,
+          source.pos.x - 5,
+          source.pos.y + 5,
+          source.pos.x + 5,
+          true
+        );
+        // console.log(crowd);
+
+      }
+      return source;
     }
 };
 
