@@ -68,10 +68,10 @@ var roleBuilder = {
         source = sourcesSorted[i];
         // console.log(source);
         let crowd = creep.room.lookForAtArea(LOOK_CREEPS,
-          source.pos.y - 2,
-          source.pos.x - 2,
-          source.pos.y + 2,
-          source.pos.x + 2,
+          source.pos.y - 3,
+          source.pos.x - 3,
+          source.pos.y + 3,
+          source.pos.x + 3,
           true
         );
         console.log(crowd.length);
