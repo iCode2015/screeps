@@ -55,10 +55,18 @@ module.exports.loop = function() {
           }
           if(creep.memory.role == 'upgrader') {
               roleUpgrader.run(creep);
+              if (creep.memory.upgrading == null) {
+                creep.memory.upgrading = true;
+              }
+
           }
 
           if(creep.memory.role == 'builder') {
               roleBuilder.run(creep);
+              if (creep.memory.building == null) {
+                console.log('setting building');
+                creep.memory.building = true;
+              }
           }
 
           if (creep.memory.role == 'defender') {
