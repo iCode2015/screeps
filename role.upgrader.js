@@ -33,7 +33,7 @@ var roleUpgrader = {
   findSource: (creep) => {
     // a copy from this room's memory.
     const sourceIDs = creep.room.memory.sourceIDs;
-    const sourcesUnSortd = [];
+    let sourcesUnSortd = [];
     const sourcesSorted = [];
 
     // We first need to
@@ -41,14 +41,19 @@ var roleUpgrader = {
       sourcesUnSortd.push((Game.getObjectById(sourceIDs[i])))
     }
 
-    // console.log(sourcesUnSortd);
+    console.log(sourcesUnSortd);
 
     // Now sort energy sources
     for (let i in sourceIDs) {
-      sourcesSorted.push(creep.pos.findClosestByRange(sourcesUnSortd));
-      sourcesUnSortd.shift();
+      let foundCloest = creep.pos.findClosestByRange(sourcesUnSortd);
+      sourcesSorted.push(foundCloest);
+
+      // console.log(toBeRemovedIndex);
+      sourcesUnSortd = sourcesUnSortd.filter((value, index, sourcesUnSortd) => {
+        return value != foundCloest;
+      });
     }
-    // console.log(sourcesSorted);
+    console.log(sourcesSorted);
 
     // Now with sorted list, we can determine closest source that has
     // less than 2 creeps crowding.
@@ -57,13 +62,13 @@ var roleUpgrader = {
       source = sourcesSorted[i];
       // console.log(source);
       let crowd = creep.room.lookForAtArea(LOOK_CREEPS,
-        source.pos.y - 3,
-        source.pos.x - 3,
-        source.pos.y + 3,
-        source.pos.x + 3,
+        source.pos.y - 4,
+        source.pos.x - 4,
+        source.pos.y + 4,
+        source.pos.x + 4,
         true
       );
-      console.log(crowd.length);
+      console.log(crowd.length + 'for ' + source);
       if (crowd.length < 2) {
         break;
       }
