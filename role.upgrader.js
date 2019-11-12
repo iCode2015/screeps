@@ -6,9 +6,11 @@ var roleUpgrader = {
         if(creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.upgrading = false;
             creep.say('🔄 harvest');
+            creep.memory.sourceID = this.findSource(creep);
 	    }
 	    if(!creep.memory.upgrading && creep.store.getFreeCapacity() == 0) {
 	        creep.memory.upgrading = true;
+          // crep.memory.sourceTarget = null;
 	        creep.say('⚡ upgrade');
 	    }
 
@@ -18,13 +20,12 @@ var roleUpgrader = {
             }
         }
         else {
-            let source = this.findSource(creep);
 
             // Now we have source to target
             // console.log(source);
-
-            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-              creep.moveTo(source, {visualizePathStyle: {}});
+            let sourceTarget = Game.getObjectById(creep.memory.sourceID)
+            if (creep.harvest(sourceTarget) == ERR_NOT_IN_RANGE) {
+              creep.moveTo(sourceTarget, {visualizePathStyle: {}});
             }
         }
 	},
@@ -56,16 +57,18 @@ var roleUpgrader = {
       source = sourcesSorted[i];
       // console.log(source);
       let crowd = creep.room.lookForAtArea(LOOK_CREEPS,
-        source.pos.y - 5,
-        source.pos.x - 5,
-        source.pos.y + 5,
-        source.pos.x + 5,
+        source.pos.y - 2,
+        source.pos.x - 2,
+        source.pos.y + 2,
+        source.pos.x + 2,
         true
       );
-      // console.log(crowd);
-
+      console.log(crowd.length);
+      if (crowd.length < 2) {
+        break;
+      }
     }
-    return source;
+    return source.id;
   }
 };
 

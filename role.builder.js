@@ -6,6 +6,7 @@ var roleBuilder = {
         if(creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
+            creep.memory.sourceID = this.findSource(creep);
         }
         if(!creep.memory.building && creep.store.getFreeCapacity() == 0) {
             creep.memory.building = true;
@@ -31,7 +32,7 @@ var roleBuilder = {
             }
         }
         else {
-            let source = this.findSource(creep);
+            let source = Game.getObjectById(creep.memory.sourceID);
             if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source,
                   {visualizePathStyle: {stroke: '#ffaa00'}
@@ -67,16 +68,18 @@ var roleBuilder = {
         source = sourcesSorted[i];
         // console.log(source);
         let crowd = creep.room.lookForAtArea(LOOK_CREEPS,
-          source.pos.y - 5,
-          source.pos.x - 5,
-          source.pos.y + 5,
-          source.pos.x + 5,
+          source.pos.y - 2,
+          source.pos.x - 2,
+          source.pos.y + 2,
+          source.pos.x + 2,
           true
         );
-        // console.log(crowd);
-
+        console.log(crowd.length);
+        if (crowd.length < 2) {
+          break;
+        }
       }
-      return source;
+      return source.id;
     }
 };
 
